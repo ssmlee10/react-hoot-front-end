@@ -37,6 +37,13 @@ const App = () => {
 
     if (user) fetchAllHoots();
   }, [user]);
+
+  const handleDeleteHoot = async (hootId) => {
+    const deletedHoot = await hootService.deleteHoot(hootId);
+    // Filter state using deletedHoot._id:
+    setHoots(hoots.filter((hoot) => hoot._id !== deletedHoot._id));
+    navigate('/hoots');
+  };
   
   return (
     <>
@@ -46,7 +53,7 @@ const App = () => {
         {user ? (
           <>
             <Route path='/hoots' element={<HootList hoots={hoots}/>} />
-            <Route path='/hoots/:hootId' element={<HootDetails />} />
+            <Route path='/hoots/:hootId' element={<HootDetails handleDeleteHoot={handleDeleteHoot}/>} />
             <Route path='/hoots/new' element={<HootForm handleAddHoot={handleAddHoot} />} />
           </>
         ) : (
