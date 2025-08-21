@@ -6,6 +6,8 @@ import * as hootService from "../../services/hootService";
 
 import { UserContext } from "../../contexts/UserContext";
 
+import styles from './HootDetails.module.css';
+
 const HootDetails = (props) => {
   const [hoot, setHoot] = useState(null);
   const { hootId } = useParams();
@@ -37,12 +39,12 @@ const HootDetails = (props) => {
   if (!hoot) return <main>Loading...</main>;
 
   return (
-    <main>
+    <main className={styles.container}>
       <section>
         <header>
           <p>{hoot.category.toUpperCase()}</p>
           <h1>{hoot.title}</h1>
-          <p>
+          <div><p>
             {`${hoot.author.username} posted on
             ${new Date(hoot.createdAt).toLocaleDateString()}`}
           </p>
@@ -53,7 +55,7 @@ const HootDetails = (props) => {
                 Delete
               </button>
             </>
-          )}
+          )}</div>
         </header>
         <p>{hoot.text}</p>
       </section>
@@ -66,12 +68,13 @@ const HootDetails = (props) => {
 
         {hoot.comments.map((comment) => (
           <article key={comment._id}>
-            <header>
+            <div><header>
               <p>
                 {`${comment.author.username} posted on
                 ${new Date(comment.createdAt).toLocaleDateString()}`}
               </p>
             </header>
+            </div>
             <p>{comment.text}</p>
             {comment.author._id === user._id && (
               <>
